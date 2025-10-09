@@ -1,0 +1,62 @@
+{
+    "register": {
+        "positive": [
+            {
+                "firstName": "John",
+                "lastName": "Doe",
+                "email": "john+{{ts}}@example.com",
+                "password": "Test@123"
+            }
+        ],
+        "negative": [
+            {
+                "firstName": "",
+                "lastName": "Doe",
+                "email": "nodata@example.com",
+                "password": "Test@123",
+                "error": "First Name"
+            },
+            {
+                "firstName": "John",
+                "lastName": "",
+                "email": "nodata@example.com",
+                "password": "Test@123",
+                "error": "Last Name"
+            },
+            {
+                "firstName": "John",
+                "lastName": "Doe",
+                "email": "invalid",
+                "password": "Test@123",
+                "error": "valid email"
+            },
+            {
+                "firstName": "John",
+                "lastName": "Doe",
+                "email": "john+{{ts}}@example.com",
+                "password": "short",
+                "error": "Password"
+            }
+        ]
+    },
+    "login": {
+        "positive": [
+            {
+                "email": "venkatesh@obiikriationz.com",
+                "password": "Test@123"
+            }
+        ],
+        "negative": [
+            {
+                "email": "",
+                "password": "Test@123",
+                "error": "Email"
+            },
+            {
+                "email": "venkatesh@obiikriationz.com",
+                "password": "WrongPass",
+                "error": "Invalid"
+            }
+        ]
+    }
+}

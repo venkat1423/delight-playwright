@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","19027","should login: venkatesh@obiikriationz.com","chromium","Wed Oct 08 18:10:43 IST 2025","passed","Wed Oct 08 18:11:03 IST 2025","Login - positive","e2e\auth\login.spec.ts","",""
+"","35992","should fail: {""email"":""venkatesh@obiikriationz.com""}","chromium","Wed Oct 08 18:11:04 IST 2025","broken","Wed Oct 08 18:11:40 IST 2025","Login - negative","e2e\auth\login.spec.ts","",""
+"","31638","should fail: {""email"":""""}","chromium","Wed Oct 08 18:10:43 IST 2025","broken","Wed Oct 08 18:11:15 IST 2025","Login - negative","e2e\auth\login.spec.ts","",""

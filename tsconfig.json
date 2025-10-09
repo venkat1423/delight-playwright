@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    /* 👇 Add these */
+    "baseUrl": "./",
+    "paths": {
+      "@pages/*": [
+        "tests/pages/*"
+      ],
+      "@scripts/*": [
+        "tests/testScripts/*"
+      ]
+    }
+  },
+  "include": [
+    "tests/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
