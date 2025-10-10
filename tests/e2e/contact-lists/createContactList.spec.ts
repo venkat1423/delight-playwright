@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures/baseFixtures';
 import { config } from '../../utils/config';
 import { getValidLoginCreds, uniqueName } from '../../utils/helpers';
 
-test('create contact list and import CSV', async ({ pages }) => {
+test('create contact list and import CSV @regression @contacts @functionality', async ({ pages }) => {
     const login = pages.loginPage;
     const contacts = pages.contactListsPage;
 

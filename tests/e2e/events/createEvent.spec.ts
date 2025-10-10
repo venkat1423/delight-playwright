@@ -1,7 +1,7 @@
 import { test, expect } from '../../fixtures/baseFixtures';
 import { getValidLoginCreds } from '../../utils/helpers';
 
-test('User can create an event from URL with dates and attendees', async ({ pages }) => {
+test('User can create an event from URL with dates and attendees @regression @events @functionality', async ({ pages }) => {
     // Precondition: user is logged in by navigating to login page in app flow if needed.
     // Since our suite starts from an authenticated session in other tests, we drive via UI here.
     console.log('Starting test: User can create an event from URL with dates and attendees');

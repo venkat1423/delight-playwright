@@ -38,42 +38,87 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
-  /* Configure projects for major browsers */
+  /* Configure projects for different test types using tags */
   projects: [
+    /* Smoke Tests - Critical functionality */
     {
-      name: 'chromium',
+      name: 'smoke',
+      testMatch: '**/*.spec.ts',
       use: { ...devices['Desktop Chrome'] },
+      retries: 0,
+      timeout: 30000,
+      grep: /@smoke/,
     },
 
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
+    /* Regression Tests - All functionality */
+    {
+      name: 'regression',
+      testMatch: '**/*.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+      retries: process.env.CI ? 2 : 0,
+      timeout: 60000,
+      grep: /@regression/,
+    },
 
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
+    /* API Tests - Backend functionality */
+    {
+      name: 'api',
+      testMatch: '**/*.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+      retries: 1,
+      timeout: 30000,
+      grep: /@api/,
+    },
 
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
+    /* Performance Tests - Load and speed */
+    {
+      name: 'performance',
+      testMatch: '**/*.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+      retries: 0,
+      timeout: 120000,
+      grep: /@performance/,
+    },
 
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+    /* Visual Tests - UI appearance */
+    {
+      name: 'visual',
+      testMatch: '**/*.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+      retries: 0,
+      timeout: 30000,
+      grep: /@visual/,
+    },
+
+    /* Cross-browser Tests - Chrome */
+    {
+      name: 'cross-browser-chrome',
+      testMatch: '**/*.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
+      retries: 1,
+      timeout: 60000,
+      grep: /@cross-browser/,
+    },
+
+    /* Cross-browser Tests - Firefox */
+    {
+      name: 'cross-browser-firefox',
+      testMatch: '**/*.spec.ts',
+      use: { ...devices['Desktop Firefox'] },
+      retries: 1,
+      timeout: 60000,
+      grep: /@cross-browser/,
+    },
+
+    /* Cross-browser Tests - Safari */
+    {
+      name: 'cross-browser-safari',
+      testMatch: '**/*.spec.ts',
+      use: { ...devices['Desktop Safari'] },
+      retries: 1,
+      timeout: 60000,
+      grep: /@cross-browser/,
+    },
   ],
 
   /* Run your local dev server before starting the tests */
@@ -82,4 +127,10 @@ export default defineConfig({
   //   url: 'http://localhost:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
+
+  /* npm run test:smoke        # Runs all @smoke tests
+npm run test:regression   # Runs all @regression tests
+npm run test:performance  # Runs all @performance tests
+npm run test:visual       # Runs all @visual tests
+npm run test:auth         # Runs all @auth tests*/
 });

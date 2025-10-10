@@ -29,7 +29,15 @@ export class LoginPage {
             this.page.waitForURL(/\/dashboard(\?.*)?$/),
             this.signInButton.click(),
         ]);
-        await this.main.waitFor({ state: 'visible' });
+        // Wait for page to load after redirect
+        await this.page.waitForLoadState('networkidle');
+    }
+
+    async loginWithoutRedirect(email: string, password: string) {
+        await this.emailInput.fill(email);
+        await this.passwordInput.fill(password);
+        await this.signInButton.click();
+        // Don't wait for redirect - used for negative tests
     }
 
     async logout() {
