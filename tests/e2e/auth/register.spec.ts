@@ -1,7 +1,7 @@
 import { test, expect } from '../../fixtures/baseFixtures';
 import users from '../../../test-data/users.json';
 
-test.describe('Register - positive', () => {
+test.describe('Register - positive @auth @regression', () => {
     for (const data of users.register.positive) {
         test(`should register: ${data.firstName} ${data.lastName}`, async ({ pages }) => {
             await pages.registerPage.goto();
@@ -13,7 +13,7 @@ test.describe('Register - positive', () => {
     }
 });
 
-test.describe('Register - negative', () => {
+test.describe('Register - negative @auth @regression', () => {
     for (const data of users.register.negative) {
         test(`should fail: ${JSON.stringify(data)}`, async ({ pages }) => {
             await pages.registerPage.goto();

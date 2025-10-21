@@ -11,3 +11,16 @@ export function uniqueName(prefix: string = 'List') {
     return `${prefix}-${ts}-${rand}`;
 }
 
+export function randomInt(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function uniqueUrl(pathPrefix: string = 'event') {
+    const slug = uniqueName(pathPrefix).toLowerCase().replace(/[^a-z0-9-]/g, '-');
+    return `https://example.com/${slug}`;
+}
+
+export function uniqueSentence(prefix: string = 'Description') {
+    return `${prefix} ${uniqueName('text')}`;
+}
+

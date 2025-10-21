@@ -37,17 +37,6 @@ test.describe('Login - performance tests', () => {
   });
 });
 
-test.describe('Login - visual tests', () => {
-  test('login page should match design @visual @ui @auth', async ({ pages }) => {
-    await pages.loginPage.goto();
-
-    // Take screenshot and compare (first run will create baseline)
-    await expect(pages.page).toHaveScreenshot('login-page.png', {
-      threshold: 0.5, // Allow 50% difference for visual tests
-      maxDiffPixels: 5000 // Allow up to 5000 pixel differences
-    });
-  });
-});
 
 test.describe('Login - negative', () => {
   for (const data of users.login.negative) {

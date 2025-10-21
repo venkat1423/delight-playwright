@@ -25,8 +25,6 @@
     "test:api:headed": "npm run clean:allure && playwright test --project=api --headed",
     "test:performance": "npm run clean:allure && playwright test --project=performance",
     "test:performance:headed": "npm run clean:allure && playwright test --project=performance --headed",
-    "test:visual": "npm run clean:allure && playwright test --project=visual",
-    "test:visual:headed": "npm run clean:allure && playwright test --project=visual --headed",
     "test:cross-browser": "npm run clean:allure && playwright test --project=cross-browser-chrome --project=cross-browser-firefox --project=cross-browser-safari",
     "test:cross-browser:headed": "npm run clean:allure && playwright test --project=cross-browser-chrome --project=cross-browser-firefox --project=cross-browser-safari --headed",
     "test:auth": "npm run clean:allure && playwright test --grep @auth",

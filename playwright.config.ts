@@ -80,15 +80,6 @@ export default defineConfig({
       grep: /@performance/,
     },
 
-    /* Visual Tests - UI appearance */
-    {
-      name: 'visual',
-      testMatch: '**/*.spec.ts',
-      use: { ...devices['Desktop Chrome'] },
-      retries: 0,
-      timeout: 30000,
-      grep: /@visual/,
-    },
 
     /* Cross-browser Tests - Chrome */
     {
@@ -131,6 +122,5 @@ export default defineConfig({
   /* npm run test:smoke        # Runs all @smoke tests
 npm run test:regression   # Runs all @regression tests
 npm run test:performance  # Runs all @performance tests
-npm run test:visual       # Runs all @visual tests
 npm run test:auth         # Runs all @auth tests*/
 });

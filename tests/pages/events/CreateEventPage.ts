@@ -6,6 +6,13 @@ export class CreateEventPage {
     readonly addEventButton: Locator;
     readonly eventUrlInput: Locator;
     readonly eventNameInput: Locator;
+    readonly eventTypeButton: Locator;
+    readonly eventTagInput: Locator;
+    readonly organizerInput: Locator;
+    readonly descriptionInput: Locator;
+    readonly venueInput: Locator;
+    readonly physicalAddressInput: Locator;
+    readonly websiteUrlInput: Locator;
     readonly autoFillButton: Locator;
     readonly statusButton: Locator;
     readonly startCalendarButton: Locator;
@@ -21,6 +28,13 @@ export class CreateEventPage {
         this.addEventButton = page.getByRole('button', { name: '+ Add Event' });
         this.eventUrlInput = page.getByRole('textbox', { name: 'https://example.com/event' });
         this.eventNameInput = page.getByRole('textbox', { name: 'Event Name *' });
+        this.eventTypeButton = page.getByRole('button', { name: /Event Type \*/i });
+        this.eventTagInput = page.getByRole('textbox', { name: 'Add tags (press Enter to add)' });
+        this.organizerInput = page.getByRole('textbox', { name: 'Organizer / Host' });
+        this.descriptionInput = page.getByRole('textbox', { name: 'Event Description *' });
+        this.venueInput = page.getByRole('textbox', { name: 'Venue *' });
+        this.physicalAddressInput = page.getByRole('textbox', { name: 'Physical Address *' });
+        this.websiteUrlInput = page.getByRole('textbox', { name: 'Event Website URL' });
         this.autoFillButton = page.getByRole('button', { name: 'Auto-Fill' });
         this.statusButton = page.getByRole('button', { name: /Event Status/i });
         this.startCalendarButton = page.getByRole('button', { name: /Start Date & Time/i });
@@ -47,6 +61,78 @@ export class CreateEventPage {
         await this.autoFillButton.click();
         await this.waitForAutoFillCompletion();
         console.log('Auto-fill completed successfully - proceeding with test');
+    }
+
+    async setEventType(typeName: string) {
+        await this.eventTypeButton.click();
+        await this.page.getByLabel(typeName, { exact: true }).getByText(typeName).click();
+    }
+
+    async setEventName(name: string) {
+        await this.eventNameInput.fill(name);
+    }
+
+    async addTags(tags: string[]) {
+        for (const tag of tags) {
+            await this.eventTagInput.fill(tag);
+            await this.page.keyboard.press('Enter');
+        }
+    }
+
+    async addTopics(topics: string[]) {
+        for (const topic of topics) {
+            await this.page.getByRole('textbox', { name: /Add topics/ }).fill(topic);
+            await this.page.keyboard.press('Enter');
+        }
+    }
+
+    async addTargetPersonas(personas: string[]) {
+        for (const persona of personas) {
+            await this.page.getByRole('textbox', { name: /Add audience types/ }).fill(persona);
+            await this.page.keyboard.press('Enter');
+        }
+    }
+
+    async addTargetAccounts(accounts: string[]) {
+        for (const account of accounts) {
+            await this.page.getByRole('textbox', { name: /Add accounts/ }).fill(account);
+            await this.page.keyboard.press('Enter');
+        }
+    }
+
+    async setAgendaSummary(text: string) {
+        await this.page.getByRole('textbox', { name: 'Agenda Summary' }).fill(text);
+    }
+
+    async addSpeakers(speakers: string[]) {
+        for (const speaker of speakers) {
+            await this.page.getByRole('textbox', { name: /Add speakers/ }).fill(speaker);
+            await this.page.keyboard.press('Enter');
+        }
+    }
+
+    async setProductFocus(text: string) {
+        await this.page.getByRole('textbox', { name: 'Product/Service Focus' }).fill(text);
+    }
+
+    async setOrganizer(name: string) {
+        await this.organizerInput.fill(name);
+    }
+
+    async setDescription(text: string) {
+        await this.descriptionInput.fill(text);
+    }
+
+    async setVenue(text: string) {
+        await this.venueInput.fill(text);
+    }
+
+    async setPhysicalAddress(text: string) {
+        await this.physicalAddressInput.fill(text);
+    }
+
+    async setWebsiteUrl(url: string) {
+        await this.websiteUrlInput.fill(url);
     }
 
     private async waitForAutoFillCompletion() {
@@ -158,8 +244,8 @@ export class CreateEventPage {
         }
 
         try {
-            await this.statusButton.click();
-            await this.page.getByRole('option', { name: statusLabel }).locator('div').nth(1).click();
+        await this.statusButton.click();
+        await this.page.getByRole('option', { name: statusLabel }).locator('div').nth(1).click();
         } catch (error) {
             console.log('Status setting failed:', error instanceof Error ? error.message : 'Unknown error');
             if (this.page.isClosed()) {
@@ -178,8 +264,8 @@ export class CreateEventPage {
 
         try {
             // Start date selection
-            await this.startCalendarButton.click();
-            const startDialog = this.page.getByRole('dialog', { name: 'Calendar Start Date & Time' });
+        await this.startCalendarButton.click();
+        const startDialog = this.page.getByRole('dialog', { name: 'Calendar Start Date & Time' });
             await startDialog.waitFor({ state: 'visible', timeout: 10000 });
 
             // Check if the specific date button exists
@@ -187,7 +273,7 @@ export class CreateEventPage {
             await startDateButton.waitFor({ state: 'visible', timeout: 5000 });
             await startDateButton.click();
 
-            await startDialog.getByRole('button', { name: 'Apply' }).click();
+        await startDialog.getByRole('button', { name: 'Apply' }).click();
             await startDialog.waitFor({ state: 'hidden', timeout: 5000 });
 
             // Check page validity before end date selection
@@ -196,8 +282,8 @@ export class CreateEventPage {
             }
 
             // End date selection
-            await this.endCalendarButton.click();
-            const endDialog = this.page.getByRole('dialog', { name: 'Calendar End Date & Time' });
+        await this.endCalendarButton.click();
+        const endDialog = this.page.getByRole('dialog', { name: 'Calendar End Date & Time' });
             await endDialog.waitFor({ state: 'visible', timeout: 10000 });
 
             // Check if the specific date button exists
@@ -205,7 +291,7 @@ export class CreateEventPage {
             await endDateButton.waitFor({ state: 'visible', timeout: 5000 });
             await endDateButton.click();
 
-            await endDialog.getByRole('button', { name: 'Apply' }).click();
+        await endDialog.getByRole('button', { name: 'Apply' }).click();
             await endDialog.waitFor({ state: 'hidden', timeout: 5000 });
 
         } catch (error) {
@@ -226,7 +312,7 @@ export class CreateEventPage {
         }
 
         try {
-            await this.expectedAttendees.fill(String(count));
+        await this.expectedAttendees.fill(String(count));
         } catch (error) {
             console.log('Attendees count setting failed:', error instanceof Error ? error.message : 'Unknown error');
             if (this.page.isClosed()) {
@@ -244,7 +330,7 @@ export class CreateEventPage {
         }
 
         try {
-            await this.createEventButton.click();
+        await this.createEventButton.click();
         } catch (error) {
             console.log('Submit failed:', error instanceof Error ? error.message : 'Unknown error');
             if (this.page.isClosed()) {
