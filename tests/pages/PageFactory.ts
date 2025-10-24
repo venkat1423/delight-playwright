@@ -7,6 +7,8 @@ import { AllEventsPage } from './events/AllEventsPage';
 import { EditEventPage } from './events/EditEventPage';
 import { AllTemplatesPage } from './templates/AllTemplatesPage';
 import { CreateTemplatePage } from './templates/CreateTemplatePage';
+import { AllCampaignsPage } from './campaigns/AllCampaignsPage';
+import { CreateCampaignPage } from './campaigns/CreateCampaignPage';
 
 export class PageFactory {
   constructor(private _page: Page) { }
@@ -45,5 +47,13 @@ export class PageFactory {
 
   get createTemplatePage() {
     return new CreateTemplatePage(this._page);
+  }
+
+  get allCampaignsPage() {
+    return new AllCampaignsPage(this._page);
+  }
+
+  get createCampaignPage() {
+    return new CreateCampaignPage(this._page);
   }
 }

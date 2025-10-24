@@ -1,4 +1,5 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
+import { uniqueName } from '../../utils/helpers';
 
 export class CreateEventPage {
     readonly page: Page;
@@ -348,6 +349,37 @@ export class CreateEventPage {
         if (!text.includes(expectedSnippet)) {
             throw new Error(`Expected events list to include text: "${expectedSnippet}"`);
         }
+    }
+
+    // High-level reusable flow used by campaign creation
+    async createBasicEventAndReturnName(): Promise<string> {
+        await this.openEventsList();
+        await this.openCreateForm();
+        const targetUrl = 'https://safe.security/resources/events/safe-at-the-10th-annual-fair-institute-conference/';
+        try {
+            await this.pasteEventUrl(targetUrl);
+        } catch (e) {
+            // Fallback: if auto-fill fails, proceed with manual filling
+            await this.waitForAutoFillToStop();
+            await this.fillFormManually(targetUrl);
+        }
+
+        let eventName: string;
+        try {
+            await expect((this as any)['eventNameInput']).toHaveValue(/.+/, { timeout: 3000 });
+            eventName = await (this as any)['eventNameInput'].inputValue();
+        } catch {
+            eventName = uniqueName('Event');
+            await this.page.getByRole('textbox', { name: 'Event Name *' }).fill(eventName);
+        }
+
+        await this.setStatus('Upcoming');
+        await this.pickDates('Friday, October 10,', 'Monday, October 20,');
+        await this.setExpectedAttendeesCount(55);
+        await this.submit();
+        await this.waitForEventsListLoaded();
+        await this.page.waitForTimeout(1000);
+        return eventName;
     }
 }
 

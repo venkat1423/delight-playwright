@@ -27,15 +27,18 @@ test('Create template with dynamic data @templates @regression', async ({ pages 
     await pages.createTemplatePage.selectGiftByName('Gradient Fitness Water Bottle', 0);
     await pages.createTemplatePage.selectGiftByName('Smart Water Bottle', 1);
     await pages.createTemplatePage.confirmGiftSelection();
+    // Toggle only the gifts that were selected
     await pages.createTemplatePage.toggleGiftCards([
-        'Bamboo Notebook',
+        'Gradient Fitness Water Bottle',
         'Smart Water Bottle',
-        'Executive Pen Set',
     ]);
 
     // Personalization
     await pages.createTemplatePage.openPersonalizationAndSaveMessage(uniqueSentence('Gift message'));
     await pages.createTemplatePage.openGiftingAnalytics();
+
+    // Switch to Landing Page tab
+    await pages.createTemplatePage.switchToLandingPage();
 
     // Content
     await pages.createTemplatePage.setLandingContent(uniqueSentence('Landing page'));
