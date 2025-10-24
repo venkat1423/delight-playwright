@@ -21,7 +21,7 @@ export class CreateTemplatePage {
     }
 
     async setDescription(text: string) {
-        await this.page.getByRole('textbox', { name: 'Description' }).fill(text);
+        await this.page.getByRole('textbox', { name: 'Description' }).first().fill(text);
     }
 
     async chooseGiftModeLetRecipientsChoose() {
@@ -77,8 +77,12 @@ export class CreateTemplatePage {
     }
 
     async toggleGiftCards(titles: string[]) {
+        // Wait for gift cards to be visible after gift selection
+        await this.page.waitForTimeout(1000);
         for (const title of titles) {
-            await this.page.getByRole('heading', { name: title }).first().click();
+            const heading = this.page.getByRole('heading', { name: title }).first();
+            await heading.waitFor({ state: 'visible', timeout: 10000 });
+            await heading.click();
         }
         await expect(this.mainRegion).toContainText('Selected Gift Options');
     }
@@ -92,6 +96,13 @@ export class CreateTemplatePage {
 
     async openGiftingAnalytics() {
         await this.page.locator('div').filter({ hasText: /^Gifting Analytics$/ }).first().click();
+        // Wait for tabs to be visible
+        await this.page.waitForTimeout(1000);
+    }
+
+    async switchToLandingPage() {
+        await this.page.getByRole('tab', { name: 'Landing Page' }).click();
+        await expect(this.mainRegion).toContainText('Customize Landing Page Design');
     }
 
     async setLandingContent(text: string) {

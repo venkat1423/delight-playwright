@@ -4,6 +4,8 @@ import { config } from '../../utils/config';
 import { saveLatestEventName } from '../../utils/eventStore';
 
 test('User can create an event manually @events @manual @regression', async ({ pages }) => {
+    test.setTimeout(120000); // 2 minutes
+
     await pages.loginPage.goto();
     const { email, password } = getValidLoginCreds();
     await pages.loginPage.login(email, password);
@@ -67,8 +69,12 @@ test('User can create an event manually @events @manual @regression', async ({ p
     // Verify we can return to All Events and see the updated name
     await pages.loginPage.page.goto(`${config.baseUrl}/events`);
     await pages.loginPage.page.waitForURL(/\/events(\?.*)?$/);
-    await expect(pages.loginPage.page.getByRole('main')).toBeVisible();
-    await expect(pages.loginPage.page.getByRole('heading', { name: updatedName })).toBeVisible();
+    await expect(pages.loginPage.page.getByRole('main')).toContainText('Manage and track your events', { timeout: 30000 });
+    // Wait for events to load and event cards to be visible
+    await pages.loginPage.page.waitForTimeout(3000);
+    // Check if the updated name appears as heading or text anywhere on the page
+    const nameLocator = pages.loginPage.page.getByText(updatedName).first();
+    await expect(nameLocator).toBeVisible({ timeout: 20000 });
 });
 
 

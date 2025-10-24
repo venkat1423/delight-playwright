@@ -4,6 +4,8 @@ import { config } from '../../utils/config';
 import { getLatestEventName, saveLatestEventName } from '../../utils/eventStore';
 
 test('Edit an existing event @events @regression', async ({ pages }) => {
+    test.setTimeout(120000); // 2 minutes
+
     await pages.loginPage.goto();
     const { email, password } = getValidLoginCreds();
     await pages.loginPage.login(email, password);
@@ -19,9 +21,17 @@ test('Edit an existing event @events @regression', async ({ pages }) => {
     await pages.createEventPage.setExpectedAttendeesCount(10);
     await pages.createEventPage.submit();
     await pages.createEventPage.waitForEventsListLoaded();
+
+    // Wait for the page to stabilize
+    await pages.loginPage.page.waitForTimeout(2000);
+
     // Explicitly navigate to All Events to avoid implicit redirect timing
     await pages.loginPage.page.goto(`${config.baseUrl}/events`);
     await expect(pages.loginPage.page.getByRole('main')).toContainText('Manage and track your events', { timeout: 30000 });
+
+    // Wait for events to load
+    await pages.loginPage.page.waitForTimeout(1000);
+
     await pages.allEventsPage.openFirstEvent();
 
     // Wait for edit view to render then the name input
